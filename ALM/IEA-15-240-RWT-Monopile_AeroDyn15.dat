@@ -134,7 +134,7 @@ TwrElev        TwrDiam        TwrCd         TwrTI      TwrCb !TwrTI used only wi
  132.001         6.572         0.5           0.1        0.0
  144.386         6.500         0.5           0.1        0.0
 ======  Outputs  ====================================================================================
-False                  SumPrint    - Generate a summary file listing input options and interpolated properties to "<rootname>.AD.sum"?  (flag)
+True                  SumPrint    - Generate a summary file listing input options and interpolated properties to "<rootname>.AD.sum"?  (flag)
 9                      NBlOuts     - Number of blade node outputs [0 - 9] (-)
 6, 11, 16, 21, 25, 30, 35, 40, 45 BlOutNd     - Blade nodes whose values will be output  (-)
 0                      NTwOuts     - Number of tower node outputs [0 - 9]  (-)
@@ -151,7 +151,6 @@ False                  SumPrint    - Generate a summary file listing input optio
 "RtAeroCp"
 "RtAeroCq"
 "RtAeroCt"
-"RtArea"
 "RtSpeed"
 "RtTSR"
 END of input file (the word "END" must appear in the first 3 columns of this last OutList line)
