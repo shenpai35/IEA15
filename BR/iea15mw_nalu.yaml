@@ -136,7 +136,7 @@ linear_solvers:
 realms:
 
 - name: realm_1
-  mesh: ../mesh/no_tilt/nrel5mw_nearbody.exo
+  mesh: mesh/iea15mw_volume.exo
   use_edges: yes
 
   equation_systems:
