@@ -172,10 +172,9 @@ realms:
   initial_conditions:
   - constant: ic_1
     target_name:
-    - nearbody-HEX
-    - nearbody-WEDGE
-    - nearbody-PYRAMID
-    - nearbody-TETRA
+      - blade1-HEX
+      - blade2-HEX
+      - blade3-HEX
     value:
       pressure: 0
       velocity: [8.0, 0.0, 0.0]
@@ -184,10 +183,9 @@ realms:
 
   material_properties:
     target_name:
-    - nearbody-HEX
-    - nearbody-WEDGE
-    - nearbody-PYRAMID
-    - nearbody-TETRA
+      - blade1-HEX
+      - blade2-HEX
+      - blade3-HEX
 
     specifications:
     - name: density
@@ -217,12 +215,6 @@ realms:
       use_wall_function: no
       turbulent_ke: 0.0
 
-  - wall_boundary_condition: bc_wall
-    target_name: hub
-    wall_user_data:
-      use_wall_function: no
-      turbulent_ke: 0.0
-
   - overset_boundary_condition: bc_overset
     overset_connectivity_type: tioga
     overset_user_data:
@@ -230,20 +222,18 @@ realms:
       mesh_group:
       - overset_name: Turbine
         mesh_parts:
-          - nearbody-HEX
-          - nearbody-WEDGE
-          - nearbody-PYRAMID
-          - nearbody-TETRA
-        wall_parts: [blade1, blade2, blade3, hub]
-        ovset_parts: [outerbcinnerblock]
+          - blade1-HEX
+          - blade2-HEX
+          - blade3-HEX
+        wall_parts: [blade1, blade2, blade3]
+        ovset_parts: [outerBC]
 
   mesh_motion:
   - name: blade_rotation
     mesh_parts:
-    - nearbody-HEX
-    - nearbody-WEDGE
-    - nearbody-PYRAMID
-    - nearbody-TETRA
+      - blade1-HEX
+      - blade2-HEX
+      - blade3-HEX
     frame: non_inertial
     motion:
     - type: rotation
@@ -299,7 +289,6 @@ realms:
     - blade1
     - blade2
     - blade3
-    - hub
 
   turbulence_averaging:
     time_filter_interval: 100000.0
@@ -308,10 +297,9 @@ realms:
 
     - name: one
       target_name:
-        - nearbody-HEX
-        - nearbody-WEDGE
-        - nearbody-PYRAMID
-        - nearbody-TETRA
+      - blade1-HEX
+      - blade2-HEX
+      - blade3-HEX
 
       reynolds_averaged_variables:
       - velocity
