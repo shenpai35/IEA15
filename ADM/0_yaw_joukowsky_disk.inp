@@ -56,7 +56,7 @@ ICNS.source_terms = ActuatorForcing
 
 #---- actuator defaultdefs ----
 Actuator.type                            = JoukowskyDisk       
-Actuator.JoukowskyDisk.epsilon           = 2.5                
+Actuator.JoukowskyDisk.epsilon           = 5.0                 
 Actuator.JoukowskyDisk.num_points_r      = 40                  # Number of radial force points to sample for velocity and force
 Actuator.JoukowskyDisk.num_points_t      = 5                   # Number of theta force points to sample for velocity and force
 Actuator.JoukowskyDisk.thrust_coeff      = 8.1672e-01 7.9044e-01 7.8393e-01 7.8624e-01 7.8824e-01 7.8942e-01 7.8902e-01 7.8740e-01 7.8503e-01 7.8237e-01 7.7955e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.6922e-01 7.4270e-01 5.5949e-01 4.6163e-01 3.8786e-01 3.2901e-01 2.8093e-01 2.4114e-01 2.0795e-01 1.8010e-01 1.5663e-01 1.3679e-01 1.1995e-01 1.0562e-01 9.3384e-02 8.2908e-02 7.3910e-02 6.6159e-02 5.9463e-02 5.3662e-02 4.8622e-02 4.4230e-02
@@ -73,7 +73,7 @@ Actuator.T1.type                         = JoukowskyDisk
 Actuator.T1.base_position                = 1680.0 0.0 0.0    
 Actuator.T1.rotor_diameter               = 240.0               
 Actuator.T1.hub_height                   = 0.0                
-Actuator.T1.epsilon                      = 2.5                
+Actuator.T1.epsilon                      = 5.0                 
 Actuator.T1.fllc                         = false               
 Actuator.T1.yaw                          = 270.0
 Actuator.T1.ct_region2                   = 7.7583e-01          
@@ -85,7 +85,7 @@ Actuator.T0.type                         = JoukowskyDisk
 Actuator.T0.base_position                = 0.0 0.0 0.0         
 Actuator.T0.rotor_diameter               = 240.0               
 Actuator.T0.hub_height                   = 0.0                 
-Actuator.T0.epsilon                      = 2.5               
+Actuator.T0.epsilon                      = 5.0                 
 Actuator.T0.fllc                         = false               
 Actuator.T0.yaw                          = 270.0               
 Actuator.T0.output_frequency             = 10                  
