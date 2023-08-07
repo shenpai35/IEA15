@@ -1,0 +1,119 @@
+# --- Simulation time control parameters ---
+time.stop_time                           = 600.0               # Max (simulated) time to evolve [s]
+time.max_step                            = -1                  
+time.fixed_dt                            = 0.1                 # Fixed timestep size (in seconds). If negative, then time.cfl is used
+incflo.physics                           = FreeStream Actuator # List of physics models to include in simulation.
+incflo.verbose                           = 0                   
+io.check_file                            = chk                 
+incflo.use_godunov                       = true                
+incflo.godunov_type                      = weno_z              
+turbulence.model                         = KOmegaSST
+TKE.source_terms                         = KwSSTSrc
+SDR.source_terms                         = SDRSrc
+
+#incflo.physics                           = FreeStream
+FreeStream.velocity_type                 = ConstValue
+ConstValue.velocity.value                = 8.0 0.0 0.0
+
+FreeStream.tke_type                      = ConstValue
+ConstValue.tke.value                     = 1.0
+FreeStream.sdr_type                      = ConstValue
+ConstValue.sdr.value                     = 250.0
+
+FreeStream.fields                        = wall_dist
+FreeStream.wall_dist_type                = ConstValue
+ConstValue.wall_dist.value               = 8.0
+
+incflo.gravity                           = 0.0 0.0 -9.81       # Gravitational acceleration vector (x,y,z) [m/s^2]
+incflo.density                           = 1.225               # Fluid density [kg/m^3]
+transport.viscosity                      = 1.872e-05           # Fluid dynamic viscosity [kg/m-s]
+transport.laminar_prandtl                = 0.7                 # Laminar prandtl number
+transport.turbulent_prandtl              = 0.3333              # Turbulent prandtl number
+ConstValue.density.value                 = 1.225               
+ConstValue.velocity.value                = 8.0 0.0 0.0        
+
+# --- Geometry and Mesh ---
+geometry.prob_lo                         = -2560.0 -960.0 -960.0
+geometry.prob_hi                         = 2560.0 960.0 960.0  
+amr.n_cell                               = 256 96 96           # Number of cells in x, y, and z directions
+amr.max_level                            = 2                   
+geometry.is_periodic                     = 0 1 1               
+xlo.type                                 = mass_inflow         
+xlo.density                              = 1.225               
+xlo.velocity                             = 8.0 0.0 0.0        
+xhi.type                                 = pressure_outflow    
+xlo.tke                                  = 1.0
+xlo.sdr                                  = 250.0
+
+# --- ABL parameters ---
+ICNS.source_terms                        = ActuatorForcing     
+incflo.velocity                          = 8.0 0.0 0.0        
+ABLForcing.abl_forcing_height            = 0.0                 
+time.plot_interval                       = 1000                
+io.plot_file                             = plt                 
+io.KE_int                                = -1                  
+Actuator.type                            = JoukowskyDisk       
+Actuator.JoukowskyDisk.epsilon           = 5.0                 
+Actuator.JoukowskyDisk.num_blades        = 3                   # Number of wind turbine blades
+Actuator.JoukowskyDisk.vortex_core_size  = 36.0                
+Actuator.JoukowskyDisk.use_tip_correction = true                # Turn on tip correction
+Actuator.JoukowskyDisk.use_root_correction = true                # Turn on root correction
+
+#---- tagging defs ----
+tagging.labels                           = Farm_level_0_zone Farm_level_1_zone
+tagging.Farm_level_0_zone.type           = GeometryRefinement  
+tagging.Farm_level_0_zone.shapes         = Farm_level_0_zone   
+tagging.Farm_level_0_zone.level          = 0                   
+tagging.Farm_level_0_zone.Farm_level_0_zone.type = box                 
+tagging.Farm_level_0_zone.Farm_level_0_zone.origin = -2400.0 -720.0 -480.0
+tagging.Farm_level_0_zone.Farm_level_0_zone.xaxis = 4800.0 0.0 0.0      
+tagging.Farm_level_0_zone.Farm_level_0_zone.yaxis = -0.0 1440.0 -0.0    
+tagging.Farm_level_0_zone.Farm_level_0_zone.zaxis = 0.0 0.0 960.0       
+tagging.Farm_level_1_zone.type           = GeometryRefinement  
+tagging.Farm_level_1_zone.shapes         = Farm_level_1_zone   
+tagging.Farm_level_1_zone.level          = 1                   
+tagging.Farm_level_1_zone.Farm_level_1_zone.type = box                 
+tagging.Farm_level_1_zone.Farm_level_1_zone.origin = -600.0 -600.0 -288.0
+tagging.Farm_level_1_zone.Farm_level_1_zone.xaxis = 1200.0 0.0 0.0      
+tagging.Farm_level_1_zone.Farm_level_1_zone.yaxis = -0.0 1200.0 -0.0    
+tagging.Farm_level_1_zone.Farm_level_1_zone.zaxis = 0.0 0.0 576.0       
+
+#---- actuator defs ----
+Actuator.labels                          = T0                  
+Actuator.T0.type                         = JoukowskyDisk       
+Actuator.T0.base_position                = 0.0 0.0 -150.0      
+Actuator.T0.rotor_diameter               = 240.0               
+Actuator.T0.hub_height                   = 150.0               
+Actuator.T0.fllc                         = false               
+Actuator.T0.yaw                          = 270.0               
+Actuator.T0.output_frequency             = 10                  
+Actuator.T0.diameters_to_sample          = 2.5                 
+Actuator.T0.thrust_coeff                 = 8.1672e-01 7.9044e-01 7.8393e-01 7.8624e-01 7.8824e-01 7.8942e-01 7.8902e-01 7.8740e-01 7.8503e-01 7.8237e-01 7.7955e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.7583e-01 7.6922e-01 7.4270e-01 5.5949e-01 4.6163e-01 3.8786e-01 3.2901e-01 2.8093e-01 2.4114e-01 2.0795e-01 1.8010e-01 1.5663e-01 1.3679e-01 1.1995e-01 1.0562e-01 9.3384e-02 8.2908e-02 7.3910e-02 6.6159e-02 5.9463e-02 5.3662e-02 4.8622e-02 4.4230e-02
+Actuator.T0.wind_speed                   = 3.0000e+00 3.5495e+00 4.0679e+00 4.5539e+00 5.0064e+00 5.4244e+00 5.8069e+00 6.1530e+00 6.4619e+00 6.7330e+00 6.9655e+00 7.1589e+00 7.3128e+00 7.4269e+00 7.5009e+00 7.5345e+00 7.5412e+00 7.5883e+00 7.6757e+00 7.8031e+00 7.9702e+00 8.1767e+00 8.4221e+00 8.7059e+00 9.0273e+00 9.3856e+00 9.7800e+00 1.0210e+01 1.0659e+01 1.0673e+01 1.1170e+01 1.1699e+01 1.2259e+01 1.2848e+01 1.3465e+01 1.4109e+01 1.4778e+01 1.5471e+01 1.6185e+01 1.6921e+01 1.7674e+01 1.8445e+01 1.9231e+01 2.0030e+01 2.0841e+01 2.1661e+01 2.2489e+01 2.3323e+01 2.4160e+01 2.5000e+01
+Actuator.T0.rpm                          = 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0000e+00 5.0861e+00 5.1954e+00 5.2765e+00 5.3290e+00 5.3529e+00 5.3577e+00 5.3912e+00 5.4532e+00 5.5437e+00 5.6625e+00 5.8092e+00 5.9836e+00 6.1851e+00 6.4135e+00 6.6681e+00 6.9483e+00 7.2535e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00 7.4992e+00
+Actuator.T0.num_points_r                 = 40                  
+Actuator.T0.num_points_t                 = 5                   
+Actuator.T0.num_blades                   = 3                   
+Actuator.T0.ct_region2                   = 0.77583              
+Actuator.T0.S0_alpha1                    = -0.22               
+Actuator.T0.use_tip_correction           = true                
+Actuator.T0.use_root_correction          = true                
+
+#---- postprocessing defs ----
+incflo.post_processing                   = sampling            
+sampling.type                            = Sampling            
+sampling.output_frequency                = 100                 
+sampling.fields                          = velocity            
+
+#---- sample defs ----
+sampling.labels                          = Farm_hh             
+sampling.Farm_hh.type                    = PlaneSampler        
+sampling.Farm_hh.num_points              = 513 193             
+sampling.Farm_hh.origin                  = -2560.0 -960.0 0.0  
+sampling.Farm_hh.axis1                   = 5120.0 0.0 0.0      
+sampling.Farm_hh.axis2                   = 0.0 1920.0 0.0      
+sampling.Farm_hh.normal                  = 0.0 0.0 0.0         
+
+#---- extra params ----
+Actuator.sample_vel_nmhalf               = true                
+#== END AMR-WIND INPUT ==
