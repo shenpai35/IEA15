@@ -1,0 +1,107 @@
+# --- Simulation time control parameters ---
+time.stop_time                           = 600.0               # Max (simulated) time to evolve [s]
+time.max_step                            = -1                  
+time.fixed_dt                            = 0.05                 # Fixed timestep size (in seconds). If negative, then time.cfl is used
+incflo.physics                           = FreeStream Actuator # List of physics models to include in simulation.
+incflo.verbose                           = 0                   
+io.check_file                            = chk                 
+incflo.use_godunov                       = true                
+incflo.godunov_type                      = weno_z              
+
+turbulence.model                         = KOmegaSST
+TKE.source_terms                         = KwSSTSrc
+SDR.source_terms                         = SDRSrc
+
+#incflo.physics                           = FreeStream
+FreeStream.velocity_type                 = ConstValue
+ConstValue.velocity.value                = 8.0 0.0 0.0
+
+FreeStream.tke_type                      = ConstValue
+ConstValue.tke.value                     = 1.0
+FreeStream.sdr_type                      = ConstValue
+ConstValue.sdr.value                     = 250.0
+
+FreeStream.fields                        = wall_dist
+FreeStream.wall_dist_type                = ConstValue
+ConstValue.wall_dist.value               = 8.0
+
+incflo.gravity                           = 0.0 0.0 -9.81       # Gravitational acceleration vector (x,y,z) [m/s^2]
+incflo.density                           = 1.225               # Fluid density [kg/m^3]
+transport.viscosity                      = 1.872e-05           # Fluid dynamic viscosity [kg/m-s]
+transport.laminar_prandtl                = 0.7                 # Laminar prandtl number
+transport.turbulent_prandtl              = 0.3333              # Turbulent prandtl number
+ConstValue.density.value                 = 1.225               
+ConstValue.velocity.value                = 8.0 0.0 0.0        
+
+
+# --- Geometry and Mesh ---
+geometry.prob_lo                         =   -1680.0 -1440.0 -1440.0
+geometry.prob_hi                         =   4080.0  1440.0  1440.0
+geometry.is_periodic                     =   0   0   0   # Periodicity x y z (0/1)
+amr.n_cell                               = 576 288 288   # Grid cells at coarsest AMRlevel
+amr.max_level                            = 3           # Max AMR level in hierarchy
+
+xlo.type                                 = mass_inflow         
+xlo.density                              = 1.225               
+xlo.velocity                             = 8.0 0.0 0.0        
+xhi.type                                 = pressure_outflow   
+xlo.tke                                  = 1.0
+xlo.sdr                                  = 250.0
+ylo.type                                 = slip_wall
+yhi.type                                 = slip_wall
+zlo.type                                 = slip_wall
+zhi.type                                 = slip_wall
+
+# --- ABL parameters ---
+ICNS.source_terms                        = ActuatorForcing     
+incflo.velocity                          = 8.0 0.0 0.0        
+ABLForcing.abl_forcing_height            = 0.0                 
+time.plot_interval                       = 1000                
+io.plot_file                             = plt                 
+io.KE_int                                = -1                  
+Actuator.type                            = JoukowskyDisk       
+Actuator.JoukowskyDisk.epsilon           = 2.5                 
+Actuator.JoukowskyDisk.num_blades        = 3                   # Number of wind turbine blades
+Actuator.JoukowskyDisk.vortex_core_size  = 36.0                
+Actuator.JoukowskyDisk.use_tip_correction = true                # Turn on tip correction
+Actuator.JoukowskyDisk.use_root_correction = true                # Turn on root correction
+
+#---- actuator defs ----
+Actuator.labels                          = T0                  
+Actuator.T0.type                         = JoukowskyDisk       
+Actuator.T0.base_position                = 0.0 0.0 -150.0      
+Actuator.T0.rotor_diameter               = 240.0               
+Actuator.T0.hub_height                   = 150.0               
+Actuator.T0.fllc                         = false               
+Actuator.T0.yaw                          = 270.0               
+Actuator.T0.output_frequency             = 10                  
+Actuator.T0.diameters_to_sample          = 2.5                 
+Actuator.JoukowskyDisk.thrust_coeff      = 0.88551979  0.87172246  0.83012122  0.81792157  0.82023828  0.82462127  0.82639205  0.82554287  0.82141105  0.8151992   0.80459165  0.80807277  0.80921908  0.80793809  0.80907367  0.80898377  0.80886622  0.80778043  0.80837923  0.80761596  0.8085169   0.80848647  0.80751944  0.8073707   0.80770689  0.80792032  0.80741859  0.80745835  0.70083307  0.69424416  0.55230003  0.45848108  0.38610663  0.32806121  0.28058194  0.2411826   0.20819721  0.1804113   0.15675109  0.13668174  0.12073076  0.10573433  0.09431406  0.08303592  0.07492468  0.06639281  0.06047538  0.05402083  0.04960161  0.04471983
+Actuator.JoukowskyDisk.wind_speed        = 3.0000e+00 3.5495e+00 4.0679e+00 4.5539e+00 5.0064e+00 5.4244e+00 5.8069e+00 6.1530e+00 6.4619e+00 6.7330e+00 6.9655e+00 7.1589e+00 7.3128e+00 7.4269e+00 7.5009e+00 7.5345e+00 7.5412e+00 7.5883e+00 7.6757e+00 7.8031e+00 7.9702e+00 8.1767e+00 8.4221e+00 8.7059e+00 9.0273e+00 9.3856e+00 9.7800e+00 1.0210e+01 1.0659e+01 1.0673e+01 1.1170e+01 1.1699e+01 1.2259e+01 1.2848e+01 1.3465e+01 1.4109e+01 1.4778e+01 1.5471e+01 1.6185e+01 1.6921e+01 1.7674e+01 1.8445e+01 1.9231e+01 2.0030e+01 2.0841e+01 2.1661e+01 2.2489e+01 2.3323e+01 2.4160e+01 2.5000e+01
+Actuator.JoukowskyDisk.rpm               = 4.42356774  4.99711137  5.00520209  5.00264626  4.99972893 5.00003478  5.00052465  5.0005988   5.00012796  4.99929212 4.99956292  5.122959    5.23389814  5.31436891  5.36819126 5.39123442  5.39582006  5.42815385  5.49227246  5.58075056 5.7004914   5.84732859  6.0205618   6.22332884  6.45060864 6.7067385   6.98642524  7.29095554  7.56118427  7.56116787 7.56052209  7.55974627  7.55914305  7.5589762   7.55918815 7.55945989  7.55953721  7.55924498  7.55869637  7.56022684 7.55971891  7.56085811  7.55945726  7.56041544  7.55943494 7.56082234  7.55896687  7.56109369  7.55862378  7.5627928
+Actuator.T0.num_points_r                 = 40                  
+Actuator.T0.num_points_t                 = 5                   
+Actuator.T0.num_blades                   = 3                   
+Actuator.T0.ct_region2                   = 0.808             
+Actuator.T0.S0_alpha1                    = -0.22               
+Actuator.T0.use_tip_correction           = true                
+Actuator.T0.use_root_correction          = true                
+
+#---- postprocessing defs ----
+incflo.post_processing                   = sampling            
+sampling.type                            = Sampling            
+sampling.output_frequency                = 100                 
+sampling.fields                          = velocity            
+
+#---- sample defs ----
+sampling.labels                          = Farm_hh             
+sampling.Farm_hh.type                    = PlaneSampler        
+sampling.Farm_hh.num_points              = 513 193             
+sampling.Farm_hh.origin                  = -2560.0 -960.0 0.0  
+sampling.Farm_hh.axis1                   = 5120.0 0.0 0.0      
+sampling.Farm_hh.axis2                   = 0.0 1920.0 0.0      
+sampling.Farm_hh.normal                  = 0.0 0.0 0.0         
+
+#---- extra params ----
+Actuator.sample_vel_nmhalf               = true                
+#== END AMR-WIND INPUT ==
