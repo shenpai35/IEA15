@@ -15,8 +15,11 @@ time.cfl              =   1.0         # CFL factor
 #.......................................#
 io.outputs = actuator_src_term omega_src sdr_dissipation
 io.derived_outputs = q_criterion
-time.plot_interval            =  1000      # Steps between plot files
-time.checkpoint_interval      =  1000       # Steps between checkpoint files
+time.plot_interval            =  20000      # Steps between plot files
+time.checkpoint_interval      =  20000       # Steps between checkpoint files
+#time.plot_start               =  5000
+#time.checkpoint_start         =  5000
+#io.restart_file = run_1/chk50000/
 #¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨#
 #               PHYSICS                 #
 #.......................................#
@@ -51,7 +54,7 @@ FreeStream.wall_dist_type = ConstValue
 ConstValue.wall_dist.value = 8.0
 
 incflo.physics = FreeStream Actuator
-Actuator.labels = T0
+Actuator.labels = T0 T1
 Actuator.type = TurbineFastLine
 Actuator.sample_vel_nmhalf = true
 
@@ -68,7 +71,10 @@ Actuator.TurbineFastLine.output_frequency = 100
 Actuator.TurbineFastLine.density = 1.225
 
 Actuator.T0.base_position = 12.0 0.0 -150.0
-Actuator.T0.openfast_input_file = "turbine_data_15MW/IEA-15-240-RWT-Monopile.fst"
+Actuator.T0.openfast_input_file = "T0_data/IEA-15-240-RWT-Monopile.fst"
+
+Actuator.T1.base_position = 1692.0 0.0 -150.0
+Actuator.T1.openfast_input_file = "T1_data/IEA-15-240-RWT-Monopile.fst"
 
 
 ICNS.source_terms = ActuatorForcing
@@ -102,6 +108,34 @@ zlo.type =   "slip_wall"
 zhi.type =   "slip_wall"
 incflo.verbose =   0
 
+#---- sample defs ----
+sampling.labels                          = T1_Rotor T0_Rotor y_slice
+
+sampling.y_slice.type                   = PlaneSampler        
+sampling.y_slice.num_points             = 576 288             
+sampling.y_slice.origin                 = -1680 0.0 -1440.0
+sampling.y_slice.axis1                  = 5760.0 0.0 0.0     
+sampling.y_slice.axis2                  = 0.0 0.0 2880.0       
+sampling.y_slice.normal                 = 0.0 1.0 0.0         
+sampling.y_slice.offsets                = 0.0
+
+sampling.T1_Rotor.type                   = PlaneSampler        
+sampling.T1_Rotor.num_points             = 250 250             
+sampling.T1_Rotor.origin                 = 1920.0 -250.0 -250.0
+sampling.T1_Rotor.axis1                  = -0.0 500.0 -0.0     
+sampling.T1_Rotor.axis2                  = 0.0 0.0 500.0       
+sampling.T1_Rotor.normal                 = 1.0 0.0 0.0         
+sampling.T1_Rotor.offsets                = 0.0 240.0 480.0 720.0 960.0 1200.0
+
+sampling.T0_Rotor.type                   = PlaneSampler        
+sampling.T0_Rotor.num_points             = 250 250             
+sampling.T0_Rotor.origin                 = 240.0 -250.0 -250.0
+sampling.T0_Rotor.axis1                  = -0.0 500.0 -0.0     
+sampling.T0_Rotor.axis2                  = 0.0 0.0 500.0       
+sampling.T0_Rotor.normal                 = 1.0 0.0 0.0         
+sampling.T0_Rotor.offsets                = 0.0 240.0 480.0 720.0 960.0 1200.0
+
+
 
 #¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨#
 ##                SOLVER                 #
@@ -111,6 +145,8 @@ incflo.verbose =   0
 diffusion.verbose=0
 diffusion.do_agglomeration = false
 diffusion.do_nsolve = true
+diffusion.mg_rtol = 1.0e-7
+sdr_diffusion.mg_rtol = 1.0e-11
 #
 velocity_diffusion.verbose=0
 velocity_diffusion.use_tensor_operator = false
